@@ -13,8 +13,10 @@ function refreshWeather(response) {
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   descriptionElement.innerHTML = response.data.condition.description;
-  temperatureElement.innerHTML = temperature;
+  temperatureElement.innerHTML = Math.round(temperature);
   cityElement.innerHTML = response.data.city;
+
+  getForecast(response.data.city);
 }
 function formatDate(date) {
   let hours = date.getHours();
@@ -46,26 +48,36 @@ function getForecast(city) {
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
+  return days[date.getDay()];
+}
 function displayForecast(response) {
-  let days = ["Tues", "Wed", "Thur", "Fri", "Sat"];
   let forecastHtml = "";
-  days.forEach(function (day, index) {
+
+  response.data.daily.forEach(function (day, index) {
     if (index < 5) {
       forecastHtml =
         forecastHtml +
         `<div class="weather-forecast-day">
-            <div class="weather-forecast-date">${day}</div>
-            <div class="weather-forecast-icon">⛅</div>
-            <div class="weather-forecast-temperatures">
-              <div class="weather-forecast-temperature">
-                <strong>12°</strong>
+              <div class="weather-forecast-date">${formatDay(day.time)}</div>
+              <img src="${
+                day.condition.icon_url
+              }" class="weather-forecast-icon"/>
+              <div class="weather-forecast-temperatures">
+                <div class="weather-forecast-temperature">
+                  <strong>${Math.round(day.temperature.maximum)}°</strong>
+                </div>
+                <div class="weather-forecast-temperature">${Math.round(
+                  day.temperature.minimum
+                )}°</div>
               </div>
-              <div class="weather-forecast-temperature">9°</div>
-            </div>
-          </div>`;
+            </div>`;
     }
   });
+
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHtml;
 }
@@ -79,4 +91,3 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Mahikeng");
-getForecast();
