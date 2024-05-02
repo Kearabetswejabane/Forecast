@@ -41,7 +41,13 @@ function searchCity(city) {
   axios.get(apiUrl).then(refreshWeather);
 }
 
-function displayForecast() {
+function getForecast(city) {
+  let apiKey = "836b30e144c862affc65t86eb36f0o6f";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
   let days = ["Tues", "Wed", "Thur", "Fri", "Sat"];
   let forecastHtml = "";
   days.forEach(function (day, index) {
@@ -50,7 +56,7 @@ function displayForecast() {
         forecastHtml +
         `<div class="weather-forecast-day">
             <div class="weather-forecast-date">${day}</div>
-            <div class="weather-forecast-icon>⛅</div>
+            <div class="weather-forecast-icon">⛅</div>
             <div class="weather-forecast-temperatures">
               <div class="weather-forecast-temperature">
                 <strong>12°</strong>
@@ -73,4 +79,4 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Mahikeng");
-displayForecast();
+getForecast();
