@@ -1,7 +1,10 @@
 body {
-  background-color: #f9f7fe;
   font-family: "Roboto", sans-serif;
+  background-image: Url(image.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
 a {
   color: #885df1;
 }
@@ -84,8 +87,10 @@ main {
   margin-bottom: 10px;
 }
 .weather-forecast-icon {
-  font-size: 38px;
-  text-align: center;
+  width: 88px;
+  height: 88px;
+  display: block;
+  margin: 0 auto;
 }
 .weather-forecast-temperatures {
   text-align: center;
