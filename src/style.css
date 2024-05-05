@@ -40,6 +40,11 @@ header {
 main {
   padding: 30px 0;
 }
+.weather-app {
+  background-image: url(image.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .weather-app-data {
   display: flex;
   justify-content: space-between;
